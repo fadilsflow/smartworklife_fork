@@ -3,9 +3,39 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 
 
+class UserOut(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    full_name: Optional[str] = None
+    is_verified: bool
+    # Onboarding fields
+    gender: Optional[str] = None
+    age: Optional[int] = None
+    industry: Optional[str] = None
+    work_start_time: Optional[str] = None
+    work_end_time: Optional[str] = None
+    # BMI fields (optional to include here)
+    weight_kg: Optional[float] = None
+    height_cm: Optional[float] = None
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfileUpdate(BaseModel):
+    gender: Optional[str] = None
+    age: Optional[int] = None
+    industry: Optional[str] = None
+    work_start_time: Optional[str] = None
+    work_end_time: Optional[str] = None
+    weight_kg: Optional[float] = None
+    height_cm: Optional[float] = None
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str
+    user: Optional[UserOut] = None
 
 
 class TokenPayload(BaseModel):
@@ -26,7 +56,7 @@ class UserLogin(BaseModel):
 
 class OTPVerify(BaseModel):
     email: EmailStr
-    otp_code: str = Field(..., min_length=6, max_length=6)
+    otp_code: str = Field(..., min_length=4, max_length=4)
 
 
 class OTPResend(BaseModel):
@@ -39,19 +69,9 @@ class ForgotPassword(BaseModel):
 
 class ResetPassword(BaseModel):
     email: EmailStr
-    otp_code: str = Field(..., min_length=6, max_length=6)
+    otp_code: str = Field(..., min_length=4, max_length=4)
     new_password: str = Field(..., min_length=8)
 
 
 class GoogleAuth(BaseModel):
     id_token: str
-
-
-class UserOut(BaseModel):
-    id: uuid.UUID   # UUID object, auto-serialized as string in JSON response
-    email: EmailStr
-    full_name: Optional[str] = None
-    is_verified: bool
-
-    class Config:
-        from_attributes = True

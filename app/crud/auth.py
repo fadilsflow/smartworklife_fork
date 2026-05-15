@@ -45,13 +45,13 @@ async def create_google_user(db: AsyncSession, *, email: str, full_name: str, go
 
 
 def generate_otp() -> str:
-    return "".join(random.choices(string.digits, k=6))
+    return "".join(random.choices(string.digits, k=4))
 
 
 async def update_user_otp(db: AsyncSession, user: User) -> str:
     otp = generate_otp()
     user.otp_code = otp
-    user.otp_expires_at = datetime.now(timezone.utc) + timedelta(minutes=10)
+    user.otp_expires_at = datetime.now(timezone.utc) + timedelta(minutes=1)
     await db.commit()
     await db.refresh(user)
     return otp

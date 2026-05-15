@@ -5,7 +5,7 @@ Handles authentication data and user settings.
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import String, Boolean, Text, ForeignKey, DateTime
+from sqlalchemy import String, Boolean, Text, ForeignKey, DateTime, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -39,6 +39,13 @@ class User(Base):
         DateTime(timezone=True), nullable=True
     )
     google_id: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True)
+
+    # --- Onboarding / Profile Fields ---
+    gender: Mapped[str | None] = mapped_column(String(20))
+    age: Mapped[int | None] = mapped_column(Integer)
+    industry: Mapped[str | None] = mapped_column(String(100))
+    work_start_time: Mapped[str | None] = mapped_column(String(10)) # Format "HH:mm"
+    work_end_time: Mapped[str | None] = mapped_column(String(10))   # Format "HH:mm"
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
