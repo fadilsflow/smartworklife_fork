@@ -20,7 +20,7 @@ async def send_otp_email(email_to: str, otp_code: str):
             <p>Halo,</p>
             <p>Gunakan kode OTP berikut untuk memverifikasi akun atau mereset password Anda:</p>
             <h1 style="color: #4CAF50; letter-spacing: 5px;">{otp_code}</h1>
-            <p>Kode ini berlaku selama 10 menit. Jangan bagikan kode ini kepada siapa pun.</p>
+            <p>Kode ini berlaku selama 1 menit. Jangan bagikan kode ini kepada siapa pun.</p>
             <p>Terima kasih,<br>Tim Smart-WorkLife</p>
         </body>
     </html>
